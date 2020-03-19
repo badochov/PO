@@ -1,9 +1,5 @@
 package cw3.dodatkowe;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
 
 class Voting {

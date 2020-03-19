@@ -1,3 +1,10 @@
+package cw3.dodatkowe;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Collections;
+
 class Median {
 
     private static int slowMedian(List<Integer> l) {
