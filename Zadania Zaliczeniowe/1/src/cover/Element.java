@@ -8,11 +8,6 @@ public class Element implements SolutionSetElement {
         return qs.subtract(this.value);
     }
 
-    @Override
-    public int intersectionSizeWithQuerySet(QuerySet qs) {
-        return qs.contains(this.value) ? 1 : 0;
-    }
-
     Element(int n) {
         this.value = n;
     }

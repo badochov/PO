@@ -12,16 +12,6 @@ public class Infinite implements SolutionSetElement {
         return qs;
     }
 
-    @Override
-    public int intersectionSizeWithQuerySet(QuerySet qs) {
-        int size = 0;
-
-        for (int i = 0; this.nthElement(i) <= qs.maxPossibleEl(); i++) {
-            size += qs.contains(this.nthElement(i)) ? 1 : 0;
-        }
-        return size;
-    }
-
     Infinite(int a, int r) {
         this.a = a;
         this.r = r;

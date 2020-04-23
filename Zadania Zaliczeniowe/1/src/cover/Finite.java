@@ -25,16 +25,6 @@ public class Finite implements SolutionSetElement {
     }
 
     @Override
-    public int intersectionSizeWithQuerySet(QuerySet qs) {
-        int size = 0;
-
-        for (int i = 0; this.nthElement(i) <= qs.maxPossibleEl() && this.nthElement(i) > 0; i++) {
-            size += qs.contains(this.nthElement(i)) ? 1 : 0;
-        }
-        return size;
-    }
-
-    @Override
     public String toString() {
         return this.a.toString().concat(" ").concat(this.r.toString()).concat(" ").concat(this.max_value.toString());
     }

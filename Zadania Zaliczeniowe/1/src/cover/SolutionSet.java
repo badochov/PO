@@ -14,7 +14,6 @@ public class SolutionSet implements SubtractableFromQuerySet {
         return qs;
     }
 
-    @Override
     public int intersectionSizeWithQuerySet(QuerySet qs) {
         QuerySet qsCopy = qs.copy();
         this.subtractFromQuerySet(qsCopy);
