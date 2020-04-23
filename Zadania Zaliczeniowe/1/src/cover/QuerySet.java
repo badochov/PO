@@ -16,6 +16,11 @@ public class QuerySet {
         }
     }
 
+    private QuerySet(int n, Set<Integer> els) {
+        this.n = n;
+        this.els = els;
+    }
+
     QuerySet subtract(int n) {
         this.els.remove(n);
         return this;
@@ -37,5 +42,8 @@ public class QuerySet {
         return this.els.contains(el);
     }
 
+    public QuerySet copy() {
+        return new QuerySet(this.n, new HashSet<>(this.els));
+    }
 
 }

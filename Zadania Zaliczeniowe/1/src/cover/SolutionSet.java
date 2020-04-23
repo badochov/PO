@@ -16,13 +16,10 @@ public class SolutionSet implements SubtractableFromQuerySet {
 
     @Override
     public int intersectionSizeWithQuerySet(QuerySet qs) {
-        int size = 0;
+        QuerySet qsCopy = qs.copy();
+        this.subtractFromQuerySet(qsCopy);
 
-        for (SubtractableFromQuerySet el : this.elements) {
-            size += el.intersectionSizeWithQuerySet(qs);
-        }
-
-        return size;
+        return qs.size() - qsCopy.size();
     }
 
     SolutionSet() {
@@ -35,5 +32,13 @@ public class SolutionSet implements SubtractableFromQuerySet {
         return this;
     }
 
+    @Override
+    public String toString() {
+        String s = "Set:\n";
+        for (SubtractableFromQuerySet el : this.elements) {
+            s = s.concat("\t").concat(el.toString()).concat("\n");
+        }
+        return s;
+    }
 
 }

@@ -8,34 +8,40 @@ public class BruteForceSolution implements Solution {
 
     @Override
     public ArrayList<Integer> solve() {
-        ArrayList<Integer> sol = new ArrayList<>();
-        boolean used[] = new boolean[this.sets.size()];
-        while (true) {
-            int max_size = 0;
-            int max_index = 0;
-            for (int i = 0; i < this.sets.size(); i++) {
-                if (!used[i]) {
-                    int curr_size = this.sets.get(i).intersectionSizeWithQuerySet(this.qs);
-                    if (curr_size > max_size) {
-                        max_index = i;
-                        max_size = curr_size;
-                    }
+        for (int i = 1; i <= this.sets.size(); i++) {
+            ArrayList<Integer> res = solve(i, 0, new ArrayList<>());
+            if (res != null) {
+                return res;
+            }
+        }
+
+        ArrayList<Integer> res = new ArrayList<>();
+        res.add(0);
+
+        return res;
+    }
+
+    private ArrayList<Integer> solve(int max_size, int num, ArrayList<Integer> ans) {
+        if (ans.size() == max_size) {
+            QuerySet qsCopy = this.qs.copy();
+            for (int i = 0; i < max_size; i++) {
+                this.sets.get(ans.get(i) - 1).subtractFromQuerySet(qsCopy);
+            }
+            if (qsCopy.isEmpty()) {
+                return ans;
+            }
+        } else {
+            for (int i = num; i < this.sets.size(); i++) {
+                ans.add(i + 1);
+                ArrayList<Integer> res = solve(max_size, i + 1, ans);
+                if (res != null) {
+                    return res;
                 }
+                ans.remove(ans.size() - 1);
             }
-
-            if (max_size == 0) {
-                break;
-            }
-            this.sets.get(max_index).subtractFromQuerySet(this.qs);
-            sol.add(max_index + 1);
         }
-        if (this.qs.isEmpty()) {
-            return sol;
-        }
-        sol.clear();
-        sol.add(0);
 
-        return sol;
+        return null;
     }
 
     BruteForceSolution(ArrayList<SolutionSet> sets, QuerySet qs) {

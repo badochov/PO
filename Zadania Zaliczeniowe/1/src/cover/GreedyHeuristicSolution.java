@@ -28,6 +28,7 @@ public class GreedyHeuristicSolution implements Solution {
             }
             this.sets.get(max_index).subtractFromQuerySet(this.qs);
             sol.add(max_index + 1);
+            used[max_index] = true;
         }
         if (this.qs.isEmpty()) {
             return sol;

@@ -1,9 +1,9 @@
 package cover;
 
-public class Finite implements SubtractableFromQuerySet {
-    private int a;
-    private int r;
-    private int max_value;
+public class Finite implements SolutionSetElement {
+    private Integer a;
+    private Integer r;
+    private Integer max_value;
 
     @Override
     public QuerySet subtractFromQuerySet(QuerySet qs) {
@@ -32,5 +32,10 @@ public class Finite implements SubtractableFromQuerySet {
             size += qs.contains(this.nthElement(i)) ? 1 : 0;
         }
         return size;
+    }
+
+    @Override
+    public String toString() {
+        return this.a.toString().concat(" ").concat(this.r.toString()).concat(" ").concat(this.max_value.toString());
     }
 }
