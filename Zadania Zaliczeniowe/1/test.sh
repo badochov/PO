@@ -45,9 +45,9 @@ cd "$java_dir" || (
   echo "Podany folder projektu nie istnieje" &
   exit 1
 )
-folder=$(createTempDir)
-javac -d "$folder" "$name.java"
-cd "$folder" || (
+tempFolder=$(createTempDir)
+javac -d "$tempFolder" "$name.java"
+cd "$tempFolder" || (
   echo "Podany folder projektu nie istnieje" &
   exit 1
 )
@@ -74,7 +74,7 @@ function run_test() {
 }
 
 function traverse_folder() {
-  folder="$1"
+  tempFolder="$1"
   shopt -s nullglob
   for f in "$folder"/*.in; do
     run_test "$f"
@@ -97,4 +97,4 @@ if [[ $leaked == 0 ]] && [[ $correct == "$total" ]]; then
   echo -e "\e[1;92mWszystko dobrze! \e[0m"
 fi
 
-rm "$out_file" -r "$folder"
+rm "$out_file" -r "$tempFolder"
