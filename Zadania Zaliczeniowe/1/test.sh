@@ -39,7 +39,6 @@ dir=$(realpath "$dir")
 
 total=0
 correct=0
-leaked=0
 
 cd "$java_dir" || (
   echo "Podany folder projektu nie istnieje" &
@@ -59,7 +58,7 @@ function run_test() {
   ((total++))
   echo -e "\e[1mTest $f \e[0m"
 
-  java "$name" <"$f" >"$out_file"
+  time java "$name" <"$f" >"$out_file"
 
   d_out=$(diff "${f%in}"out "$out_file")
 
@@ -74,7 +73,7 @@ function run_test() {
 }
 
 function traverse_folder() {
-  tempFolder="$1"
+  folder="$1"
   shopt -s nullglob
   for f in "$folder"/*.in; do
     run_test "$f"
@@ -91,9 +90,7 @@ traverse_folder "$dir"
 
 echo -e "Poprawne \e[1m$correct\e[0m na \e[1m$total\e[0m testów"
 
-echo -e "Wyciekła pamięć w \e[1m$leaked\e[0m na \e[1m$total\e[0m testów"
-
-if [[ $leaked == 0 ]] && [[ $correct == "$total" ]]; then
+if [[ $correct == "$total" ]]; then
   echo -e "\e[1;92mWszystko dobrze! \e[0m"
 fi
 
