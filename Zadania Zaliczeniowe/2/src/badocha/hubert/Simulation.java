@@ -19,6 +19,15 @@ public class Simulation {
         constituencies = constituenciesInSimulation;
     }
 
+    private static double valueAfterComa(double d) {
+        return d - (int) d;
+    }
+
+    private static int comparePartyVotes(Map.Entry<String, Double> e1,
+                                         Map.Entry<String, Double> e2) {
+        return Double.compare(valueAfterComa(e1.getValue()), valueAfterComa(e1.getValue()));
+    }
+
     public void simulate() {
         for (VoteCountingType voteCountingType : VoteCountingType.values()) {
             simulate(voteCountingType);
@@ -104,16 +113,6 @@ public class Simulation {
 
 
         return mandates;
-    }
-
-
-    private static double valueAfterComa(double d) {
-        return d - (int) d;
-    }
-
-    private static int comparePartyVotes(Map.Entry<String, Double> e1,
-                                         Map.Entry<String, Double> e2) {
-        return Double.compare(valueAfterComa(e1.getValue()), valueAfterComa(e1.getValue()));
     }
 
     private Map<String, Integer> getNumberOfMandatesHareNiemeyer(
