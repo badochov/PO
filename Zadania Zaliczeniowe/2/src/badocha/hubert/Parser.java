@@ -73,9 +73,12 @@ public class Parser implements AutoCloseable {
         return budgets;
     }
 
-    public SingleConstituency[] parseConstituencies(int count, int traitsCount, int[] voters,
+    public SingleConstituency[] parseConstituencies(int traitsCount, int[] voters,
                                                     int partiesCount) {
-        SingleConstituency[] constituencies = new SingleConstituency[count];
+        SingleConstituency[] constituencies = new SingleConstituency[voters.length];
+        for (int i = 0; i < voters.length; i++) {
+            constituencies[i] = new SingleConstituency(voters[i], i + 1);
+        }
         parseCandidates(constituencies, traitsCount, voters, partiesCount);
         parseNumberOfVoters(constituencies, traitsCount, voters);
         return constituencies;
@@ -95,7 +98,7 @@ public class Parser implements AutoCloseable {
                     for (int t = 0; t < traitsCount; t++) {
                         traits[t] = sc.nextInt();
                     }
-                    Candidate candidate = new Candidate(name, surname, traits);
+                    Candidate candidate = new Candidate(name, surname, traits, partyName);
                     constituencies[c].addCandidate(partyName, candidate);
                 }
             }
@@ -152,7 +155,7 @@ public class Parser implements AutoCloseable {
     }
 
     private MinMaxTraitVoter getSingleTraitVoter(String name, String surname, VoterType type) {
-        int trait = sc.nextInt();
+        int trait = sc.nextInt() - 1;
 
         if (VoterType.isMin(type)) {
             if (type.isSinglePartyVoter()) {

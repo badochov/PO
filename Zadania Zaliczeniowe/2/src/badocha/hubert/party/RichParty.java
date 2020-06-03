@@ -13,4 +13,8 @@ public class RichParty extends MoneySensitiveParty {
     @Override public void performAction(VoteCountingType voteCountingType) {
         performOperation(voteCountingType, -1);
     }
+
+    @Override public RichParty copy(Constituency[] newConstituencies) {
+        return new RichParty(getName(), budget, actions, newConstituencies);
+    }
 }

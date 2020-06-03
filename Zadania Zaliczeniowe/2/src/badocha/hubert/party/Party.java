@@ -1,20 +1,29 @@
 package badocha.hubert.party;
 
 import badocha.hubert.Action;
-import badocha.hubert.Candidate;
 import badocha.hubert.Pair;
 import badocha.hubert.VoteCountingType;
 import badocha.hubert.constituencies.Constituency;
+import badocha.hubert.voter.OmnivorousVoter;
+import badocha.hubert.voter.Voter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
 public abstract class Party {
+    protected final Action[] actions;
+    protected final Constituency[] constituencies;
     private final String name;
     protected int budget;
-    protected final Action[] actions;
-    protected Constituency[] constituencies;
+
+    Party(String partyName, int partyBudget, Action[] actionsAvailable,
+          Constituency[] constituenciesAvailable) {
+        name = partyName;
+        budget = partyBudget;
+        actions = getActionsSortedByPrice(actionsAvailable);
+        constituencies = getConstituenciesSortedByPrice(constituenciesAvailable);
+    }
 
     static protected int totalPrice(Pair<Action, Constituency> p) {
         return totalPrice(p.getFirst(), p.getSecond());
@@ -33,20 +42,7 @@ public abstract class Party {
                 }
             }
         }
-
         return pairs;
-    }
-
-    Party(String partyName, int partyBudget, Action[] actionsAvailable,
-          Constituency[] constituenciesAvailable) {
-        name = partyName;
-        budget = partyBudget;
-        actions = getActionsSortedByPrice(actionsAvailable);
-        constituencies = getConstituenciesSortedByPrice(constituenciesAvailable);
-    }
-
-    public void setConstituencies(Constituency[] constituenciesAvailable) {
-        constituencies = getConstituenciesSortedByPrice(constituenciesAvailable);
     }
 
     public String getName() {
@@ -69,9 +65,15 @@ public abstract class Party {
                 .toArray(Constituency[]::new);
     }
 
-    protected void applyAction(Pair<Action, Constituency> pair){
-        for (Candidate candidate : pair.getSecond().getPartyCandidates(getName())) {
-            candidate.performActions(pair.getFirst());
+    protected void applyAction(Pair<Action, Constituency> pair) {
+        for (Voter voter : pair.getSecond().getVoters()) {
+            if (voter instanceof OmnivorousVoter) {
+                ((OmnivorousVoter) voter).performAction(pair.getFirst());
+            }
         }
+
+        budget -= pair.getFirst().getPrice();
     }
+
+    abstract public Party copy(Constituency[] newConstituencies);
 }

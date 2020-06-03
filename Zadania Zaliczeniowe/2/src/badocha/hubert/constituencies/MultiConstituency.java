@@ -6,8 +6,9 @@ import badocha.hubert.voter.Voter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-public class MultiConstituency implements Constituency {
+public class MultiConstituency extends AbstractConstituency {
     private final ArrayList<Constituency> constituencies;
 
     public MultiConstituency(ArrayList<Constituency> mergedConstituencies) {
@@ -46,7 +47,8 @@ public class MultiConstituency implements Constituency {
     }
 
     @Override
-    public Map<Candidate, ArrayList<Voter>> getVotes(Map<String, ArrayList<Candidate>> allCandidates) {
+    public Map<Candidate, ArrayList<Voter>> getVotes(
+            Map<String, ArrayList<Candidate>> allCandidates) {
         Map<Candidate, ArrayList<Voter>> votes = new HashMap<>();
         for (Constituency constituency : constituencies) {
             for (var partyCandidates : constituency.getVotes(allCandidates).entrySet()) {
@@ -67,4 +69,16 @@ public class MultiConstituency implements Constituency {
         return constituencies.stream().map(Constituency::getVoters)
                 .reduce(new ArrayList<>(), MultiConstituency::mergeLists);
     }
+
+    @Override public MultiConstituency copy() {
+        return new MultiConstituency((ArrayList<Constituency>) constituencies.stream().map(
+                Constituency::copy).collect(Collectors.toList()));
+    }
+
+    @Override public String getName() {
+        final String[] name = {"("};
+        constituencies.forEach(constituency -> name[0] += constituency.getName() + " + ");
+        return name[0].substring(0, name[0].length() - 3) + ")";
+    }
+
 }

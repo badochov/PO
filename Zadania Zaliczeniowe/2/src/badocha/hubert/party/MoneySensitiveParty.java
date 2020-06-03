@@ -15,7 +15,7 @@ public abstract class MoneySensitiveParty extends Party {
     protected void performOperation(VoteCountingType voteCountingType, int operationNumber) {
         var availableActions = getAvailableActions();
         availableActions.sort(Comparator.comparingInt(Party::totalPrice));
-        int index = availableActions.size() + operationNumber % availableActions.size();
+        int index = (availableActions.size() + operationNumber) % availableActions.size();
 
         applyAction(availableActions.get(index));
     }

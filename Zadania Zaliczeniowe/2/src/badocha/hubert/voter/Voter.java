@@ -1,15 +1,12 @@
 package badocha.hubert.voter;
 
 import badocha.hubert.Candidate;
-import badocha.hubert.Human;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-abstract public class Voter extends Human {
-    Voter(String name, String surname) {
-        super(name, surname);
-    }
+public interface Voter {
+    Candidate getVote(Map<String, ArrayList<Candidate>> candidates);
 
-    abstract public Candidate getVote(Map<String, ArrayList<Candidate>> candidates);
+    Voter copy();
 }

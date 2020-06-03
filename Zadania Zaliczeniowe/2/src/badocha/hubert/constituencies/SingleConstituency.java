@@ -8,21 +8,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SingleConstituency implements Constituency {
+public class SingleConstituency extends AbstractConstituency {
     final private Map<String, ArrayList<Candidate>> candidates;
     final private ArrayList<Voter> voters;
     final private int size;
+    final private int id;
 
-    SingleConstituency(int constituencySize) {
+    public SingleConstituency(int constituencySize, int constituencyId) {
         candidates = new HashMap<>();
         voters = new ArrayList<>();
         size = constituencySize;
+        id = constituencyId;
     }
 
     public void addCandidate(String p, Candidate c) {
         ArrayList<Candidate> partyCandidates = candidates.getOrDefault(p, new ArrayList<>());
         partyCandidates.add(c);
-        candidates.replace(p, partyCandidates);
+        candidates.put(p, partyCandidates);
     }
 
     @Override
@@ -44,6 +46,20 @@ public class SingleConstituency implements Constituency {
         return voters;
     }
 
+    @Override public Constituency copy() {
+        SingleConstituency constituency = new SingleConstituency(size, id);
+        for (var partyCandidates : candidates.entrySet()) {
+            for (Candidate candidate : partyCandidates.getValue()) {
+                constituency.addCandidate(partyCandidates.getKey(), candidate);
+            }
+        }
+        for (Voter voter : voters) {
+            constituency.addVoter(voter.copy());
+        }
+
+        return constituency;
+    }
+
     @Override
     public Map<String, ArrayList<Candidate>> getAllCandidates() {
         return candidates;
@@ -55,7 +71,8 @@ public class SingleConstituency implements Constituency {
     }
 
     @Override
-    public Map<Candidate, ArrayList<Voter>> getVotes(Map<String, ArrayList<Candidate>> allCandidates) {
+    public Map<Candidate, ArrayList<Voter>> getVotes(
+            Map<String, ArrayList<Candidate>> allCandidates) {
         Map<Candidate, ArrayList<Voter>> votes = new HashMap<>();
         for (Voter voter : voters) {
             Candidate candidate;
@@ -69,5 +86,9 @@ public class SingleConstituency implements Constituency {
             votes.put(candidate, prevVotes);
         }
         return votes;
+    }
+
+    @Override public String getName() {
+        return String.valueOf(id);
     }
 }

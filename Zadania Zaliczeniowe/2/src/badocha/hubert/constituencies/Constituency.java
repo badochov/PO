@@ -17,6 +17,13 @@ public interface Constituency {
 
     int getSize();
 
+    int getNumberOfVotes();
+
     ArrayList<Voter> getVoters();
 
+    Constituency copy();
+
+    String getName();
+
+    int getMandatesCount();
 }

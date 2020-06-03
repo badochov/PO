@@ -31,7 +31,7 @@ public class Main {
             PartyStrategy[] partiesStrategies = parser.parsePartiesStrategies(p);
             int[] votersInConstituency = parser.parseNumberOfVoters(n);
             SingleConstituency[] constituencies =
-                    parser.parseConstituencies(n, c, votersInConstituency, p);
+                    parser.parseConstituencies(c, votersInConstituency, p);
 
             Action[] actions = parser.parseActions(d, c);
             Party[] parties =

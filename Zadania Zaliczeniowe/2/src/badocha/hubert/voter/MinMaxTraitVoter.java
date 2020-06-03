@@ -1,14 +1,15 @@
 package badocha.hubert.voter;
 
 import badocha.hubert.Candidate;
+import badocha.hubert.Human;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
 
-public abstract class MinMaxTraitVoter extends Voter {
-    private final int[][] traitWeights;
-    private final String party;
+public abstract class MinMaxTraitVoter extends Human implements Voter {
+    protected final int[][] traitWeights;
+    protected final String party;
 
     MinMaxTraitVoter(String name, String surname, int[][] weights, String partyName) {
         super(name, surname);

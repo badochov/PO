@@ -9,4 +9,7 @@ public class MaxTraitVoter extends MinMaxTraitVoter {
         super(name, surname, new int[][]{{traitNumber, 1}});
     }
 
+    @Override public MaxTraitVoter copy() {
+        return new MaxTraitVoter(name, surname, traitWeights[0][0], party);
+    }
 }

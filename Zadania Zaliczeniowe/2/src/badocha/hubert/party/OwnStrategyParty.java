@@ -17,4 +17,8 @@ public class OwnStrategyParty extends Party {
         int index = new Random().nextInt(availableActions.size());
         applyAction(availableActions.get(index));
     }
+
+    @Override public OwnStrategyParty copy(Constituency[] newConstituencies) {
+        return new OwnStrategyParty(getName(), budget, actions, newConstituencies);
+    }
 }

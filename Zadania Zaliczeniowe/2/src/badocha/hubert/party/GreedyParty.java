@@ -1,9 +1,12 @@
 package badocha.hubert.party;
 
 import badocha.hubert.Action;
+import badocha.hubert.Candidate;
 import badocha.hubert.Pair;
 import badocha.hubert.VoteCountingType;
 import badocha.hubert.constituencies.Constituency;
+import badocha.hubert.voter.OmnivorousVoter;
+import badocha.hubert.voter.Voter;
 
 public class GreedyParty extends Party {
     public GreedyParty(String partyName, int partyBudget, Action[] actionsAvailable,
@@ -18,16 +21,42 @@ public class GreedyParty extends Party {
         int maxValue = Integer.MIN_VALUE;
         for (var action : availableActions) {
             int value = calculateActionValue(action);
-            if(value > maxValue){
-                value = maxValue;
-
+            if (value > maxValue) {
+                maxValue = value;
+                bestAction = action;
             }
         }
 
         applyAction(bestAction);
     }
 
-    private int calculateActionValue(Pair<Action, Constituency> pair){
-        return 0;
+    private int calculateActionValue(Pair<Action, Constituency> pair) {
+        int sum = 0;
+        for (Voter voter : pair.getSecond().getVoters()) {
+            if (voter instanceof OmnivorousVoter) {
+                int[] weights = ((OmnivorousVoter) voter).getWeights();
+                for (int i = 0; i < weights.length; i++) {
+                    weights[i] = ((OmnivorousVoter) voter)
+                            .getNewWeightValue(i, pair.getFirst().getChange(i));
+                }
+                sum += calculateWeightedSum(weights, pair.getSecond());
+            }
+        }
+        return sum;
+    }
+
+    private int calculateWeightedSum(int[] weights, Constituency constituency) {
+        int sum = 0;
+        for (Candidate candidate : constituency.getPartyCandidates(getName())) {
+            for (int i = 0; i < weights.length; i++) {
+                sum += weights[i] * candidate.getTrait(i);
+            }
+        }
+
+        return sum;
+    }
+
+    @Override public GreedyParty copy(Constituency[] newConstituencies) {
+        return new GreedyParty(getName(), budget, actions, newConstituencies);
     }
 }
