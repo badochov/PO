@@ -1,4 +1,6 @@
-package badocha.hubert;
+package badocha.hubert.voter;
+
+import badocha.hubert.Candidate;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -7,7 +9,7 @@ public class CandidateVoter extends Voter {
     private final String party;
     private final int pos;
 
-    CandidateVoter(String name, String surname, String partyName, int position) {
+    public CandidateVoter(String name, String surname, String partyName, int position) {
         super(name, surname);
         party = partyName;
         pos = position - 1;

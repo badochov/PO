@@ -1,6 +1,10 @@
 package badocha.hubert;
 
 
+import badocha.hubert.constituencies.SingleConstituency;
+import badocha.hubert.party.PartyStrategy;
+import badocha.hubert.voter.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -28,7 +32,10 @@ public class Parser implements AutoCloseable {
         for (int i = 0; i < n; i++) {
             String mergedTuple = sc.next();
             mergedTuple = mergedTuple.substring(1, mergedTuple.length() - 1);
-            merged[i] = Stream.of(mergedTuple.split(",")).mapToInt(Integer::parseInt).toArray();
+            merged[i] =
+                    Stream.of(mergedTuple.split(",")).mapToInt(Integer::parseInt)
+                            .map((num) -> num - 1)
+                            .toArray();
         }
         return merged;
     }
@@ -50,10 +57,10 @@ public class Parser implements AutoCloseable {
         return budgets;
     }
 
-    public StrategyEnum[] parsePartiesStrategies(int p) {
-        StrategyEnum[] budgets = new StrategyEnum[p];
+    public PartyStrategy[] parsePartiesStrategies(int p) {
+        PartyStrategy[] budgets = new PartyStrategy[p];
         for (int i = 0; i < p; i++) {
-            budgets[i] = StrategyEnum.valueOf(sc.next());
+            budgets[i] = PartyStrategy.getStrategy(sc.next());
         }
         return budgets;
     }
@@ -66,14 +73,16 @@ public class Parser implements AutoCloseable {
         return budgets;
     }
 
-    public SingleConstituency[] parseConstituencies(int count, int traitsCount, int[] voters, int partiesCount) {
+    public SingleConstituency[] parseConstituencies(int count, int traitsCount, int[] voters,
+                                                    int partiesCount) {
         SingleConstituency[] constituencies = new SingleConstituency[count];
         parseCandidates(constituencies, traitsCount, voters, partiesCount);
         parseNumberOfVoters(constituencies, traitsCount, voters);
         return constituencies;
     }
 
-    private void parseCandidates(SingleConstituency[] constituencies, int traitsCount, int[] voters, int partiesCount) {
+    private void parseCandidates(SingleConstituency[] constituencies, int traitsCount, int[] voters,
+                                 int partiesCount) {
         for (int c = 0; c < constituencies.length; c++) {
             for (int p = 0; p < partiesCount; p++) {
                 for (int v = 0; v < voters[c] / 10; v++) {
@@ -93,7 +102,8 @@ public class Parser implements AutoCloseable {
         }
     }
 
-    public void parseNumberOfVoters(SingleConstituency[] constituencies, int traitsCount, int[] voters) {
+    public void parseNumberOfVoters(SingleConstituency[] constituencies, int traitsCount,
+                                    int[] voters) {
         for (int c = 0; c < constituencies.length; c++) {
             for (int v = 0; v < voters[c]; v++) {
                 String name = sc.next();
@@ -129,7 +139,8 @@ public class Parser implements AutoCloseable {
         return actions;
     }
 
-    private OmnivorousVoter getOmnivorousVoter(String name, String surname, int traitsCount, VoterType type) {
+    private OmnivorousVoter getOmnivorousVoter(String name, String surname, int traitsCount,
+                                               VoterType type) {
         int[] traits = new int[traitsCount];
         for (int i = 0; i < traitsCount; i++) {
             traits[i] = sc.nextInt();
@@ -158,7 +169,7 @@ public class Parser implements AutoCloseable {
     private Voter getPartyOrCandidateVoter(String name, String surname, VoterType type) {
         String partyName = sc.next();
         if (type.isSingleCandidateVoter()) {
-            return new CandidateVoter(name, surname, partyName, sc.nextInt());
+            return new CandidateVoter(name, surname, partyName, sc.nextInt() - 1);
         }
         return new PartyVoter(name, surname, partyName);
     }

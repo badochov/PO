@@ -1,17 +1,17 @@
-package badocha.hubert;
+package badocha.hubert.party;
 
-public enum StrategyEnum {
-    Cheap, Additional, Rich, Greedy;
+public enum PartyStrategy {
+    Cheap, OwnStrategy, Rich, Greedy;
 
 
-    public static StrategyEnum getEnum(String token){
-        switch (token){
+    public static PartyStrategy getStrategy(String token) {
+        switch (token) {
             case "R":
                 return Rich;
             case "S":
                 return Cheap;
             case "W":
-                return Additional;
+                return OwnStrategy;
             case "Z":
                 return Greedy;
             default:

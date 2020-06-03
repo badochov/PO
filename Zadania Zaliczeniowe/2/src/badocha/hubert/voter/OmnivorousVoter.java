@@ -1,11 +1,11 @@
-package badocha.hubert;
+package badocha.hubert.voter;
 
 public class OmnivorousVoter extends MinMaxTraitVoter {
-    OmnivorousVoter(String name, String surname, int[] weights, String partyName) {
+    public OmnivorousVoter(String name, String surname, int[] weights, String partyName) {
         super(name, surname, convertWeights(weights), partyName);
     }
 
-    OmnivorousVoter(String name, String surname, int[] weights) {
+    public OmnivorousVoter(String name, String surname, int[] weights) {
         super(name, surname, convertWeights(weights));
     }
 

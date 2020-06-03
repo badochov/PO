@@ -1,4 +1,6 @@
-package badocha.hubert;
+package badocha.hubert.voter;
+
+import badocha.hubert.Candidate;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -7,7 +9,7 @@ import java.util.Random;
 public class PartyVoter extends Voter {
     private final String party;
 
-    PartyVoter(String name, String surname, String partyName) {
+    public PartyVoter(String name, String surname, String partyName) {
         super(name, surname);
         party = partyName;
     }

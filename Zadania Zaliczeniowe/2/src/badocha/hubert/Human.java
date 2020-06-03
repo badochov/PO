@@ -4,7 +4,7 @@ public abstract class Human {
     private final String name;
     private final String surname;
 
-    Human(String first, String sur) {
+    public Human(String first, String sur) {
         name = first;
         surname = sur;
     }

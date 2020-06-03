@@ -1,4 +1,6 @@
-package badocha.hubert;
+package badocha.hubert.voter;
+
+import badocha.hubert.Candidate;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -26,7 +28,8 @@ public abstract class MinMaxTraitVoter extends Voter {
         return sum;
     }
 
-    protected ArrayList<Candidate> getAscendingSortedByTraitCandidates(Map<String, ArrayList<Candidate>> candidates) {
+    protected ArrayList<Candidate> getAscendingSortedByTraitCandidates(
+            Map<String, ArrayList<Candidate>> candidates) {
         ArrayList<Candidate> availableCandidates;
         if (party.equals("")) {
             availableCandidates = new ArrayList<>();

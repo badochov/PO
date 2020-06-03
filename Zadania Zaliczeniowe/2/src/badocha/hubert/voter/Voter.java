@@ -1,4 +1,7 @@
-package badocha.hubert;
+package badocha.hubert.voter;
+
+import badocha.hubert.Candidate;
+import badocha.hubert.Human;
 
 import java.util.ArrayList;
 import java.util.Map;

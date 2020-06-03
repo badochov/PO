@@ -1,4 +1,4 @@
-package badocha.hubert;
+package badocha.hubert.voter;
 
 
 public enum VoterType {
@@ -19,23 +19,7 @@ public enum VoterType {
         traits = voterTraits;
     }
 
-    public boolean isSinglePartyVoter() {
-        return style != VoterStyle.Multi;
-    }
-
-    public boolean isSingleCandidateVoter() {
-        return style == VoterStyle.SingleCandidate;
-    }
-
-    public boolean usesTraits(){
-        return traits != VoterTraits.No;
-    }
-
-    public boolean usesOneTrait(){
-        return traits == VoterTraits.Single;
-    }
-
-    public static boolean isMin(VoterType voterType){
+    public static boolean isMin(VoterType voterType) {
         return voterType == MinOneTraitMultiParty || voterType == MinOneTraitSingleParty;
     }
 
@@ -61,16 +45,32 @@ public enum VoterType {
                 return null;
         }
     }
+
+    public boolean isSinglePartyVoter() {
+        return style != VoterStyle.Multi;
+    }
+
+    public boolean isSingleCandidateVoter() {
+        return style == VoterStyle.SingleCandidate;
+    }
+
+    public boolean usesTraits() {
+        return traits != VoterTraits.No;
+    }
+
+    public boolean usesOneTrait() {
+        return traits == VoterTraits.Single;
+    }
 }
 
 enum VoterStyle {
     SingleParty,
     SingleCandidate,
-    Multi;
+    Multi
 }
 
 enum VoterTraits {
     No,
     Single,
-    Multi;
+    Multi
 }
