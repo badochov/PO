@@ -30,7 +30,7 @@ public abstract class Party {
     }
 
     static protected int totalPrice(Action action, Constituency constituency) {
-        return action.getPrice() * constituency.getSize() / 10;
+        return action.getPrice() * constituency.getMandatesCount();
     }
 
     protected ArrayList<Pair<Action, Constituency>> getAvailableActions() {

@@ -15,10 +15,6 @@ public class Action {
         return sum;
     }
 
-    public int[] getChanges() {
-        return changes;
-    }
-
     public int getChange(int i) {
         return changes[i];
     }

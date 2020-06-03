@@ -42,11 +42,6 @@ public class MultiConstituency extends AbstractConstituency {
     }
 
     @Override
-    public Map<Candidate, ArrayList<Voter>> getVotes() {
-        return getVotes(getAllCandidates());
-    }
-
-    @Override
     public Map<Candidate, ArrayList<Voter>> getVotes(
             Map<String, ArrayList<Candidate>> allCandidates) {
         Map<Candidate, ArrayList<Voter>> votes = new HashMap<>();

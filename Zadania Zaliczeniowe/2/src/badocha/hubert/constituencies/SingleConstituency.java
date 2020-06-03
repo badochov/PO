@@ -65,10 +65,6 @@ public class SingleConstituency extends AbstractConstituency {
         return candidates;
     }
 
-    @Override
-    public Map<Candidate, ArrayList<Voter>> getVotes() {
-        return getVotes(candidates);
-    }
 
     @Override
     public Map<Candidate, ArrayList<Voter>> getVotes(
