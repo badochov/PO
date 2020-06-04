@@ -8,10 +8,10 @@ public enum VoterType {
     CandidateElectorate(VoterStyle.SingleCandidate, VoterTraits.No),
     MinOneTraitMultiParty(VoterStyle.Multi, VoterTraits.Single),
     MaxOneTraitMultiParty(VoterStyle.Multi, VoterTraits.Single),
-    TraitsAwareMultiParty(VoterStyle.Multi, VoterTraits.Multi),
+    TraitsWeightedMultiParty(VoterStyle.Multi, VoterTraits.Multi),
     MinOneTraitSingleParty(VoterStyle.SingleParty, VoterTraits.Single),
     MaxOneTraitSingleParty(VoterStyle.SingleParty, VoterTraits.Single),
-    TraitsAwareSingleParty(VoterStyle.SingleParty, VoterTraits.Multi);
+    TraitsWeightedSingleParty(VoterStyle.SingleParty, VoterTraits.Multi);
 
     private final VoterStyle style;
     private final VoterTraits traits;
@@ -36,13 +36,13 @@ public enum VoterType {
             case 4:
                 return MaxOneTraitMultiParty;
             case 5:
-                return TraitsAwareMultiParty;
+                return TraitsWeightedMultiParty;
             case 6:
                 return MinOneTraitSingleParty;
             case 7:
                 return MaxOneTraitSingleParty;
             case 8:
-                return TraitsAwareSingleParty;
+                return TraitsWeightedSingleParty;
             default:
                 return null;
         }
