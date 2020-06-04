@@ -2,10 +2,11 @@ package badocha.hubert.voter;
 
 import badocha.hubert.Candidate;
 import badocha.hubert.Human;
+import badocha.hubert.Utils;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Klasa abstrakcyjna reprezentująca osobę która wartościuje kandydatów względem zestawu wag dla danych cech.
@@ -32,27 +33,36 @@ public abstract class MinMaxTraitVoter extends Human implements Voter {
         return sum;
     }
 
-    protected ArrayList<Candidate> getAscendingSortedByTraitCandidates(
+    protected ArrayList<Candidate> getCandidatesWithMaxScore(
             Map<String, ArrayList<Candidate>> candidates) {
         ArrayList<Candidate> availableCandidates;
         if (party.equals("")) {
-            availableCandidates = new ArrayList<>();
-            for (ArrayList<Candidate> c : candidates.values()) {
-                availableCandidates.addAll(c);
-            }
+            availableCandidates =
+                    candidates.values().stream().reduce(new ArrayList<>(), Utils::mergeLists);
         } else {
             availableCandidates = candidates.get(party);
         }
+        ArrayList<Candidate> candidatesWithMaxScore = new ArrayList<>();
 
-        availableCandidates.sort(Comparator.comparingInt(this::getTraitsSum));
+        int maxSum = Integer.MIN_VALUE;
+        for (Candidate candidate : availableCandidates) {
+            int sum = getTraitsSum(candidate);
+            if (sum == maxSum) {
+                candidatesWithMaxScore.add(candidate);
+            } else if (sum > maxSum) {
+                maxSum = sum;
+                candidatesWithMaxScore.clear();
+                candidatesWithMaxScore.add(candidate);
+            }
+        }
 
-        return availableCandidates;
+        return candidatesWithMaxScore;
     }
 
 
     @Override
     public Candidate getVote(Map<String, ArrayList<Candidate>> candidates) {
-        ArrayList<Candidate> sortedCandidates = getAscendingSortedByTraitCandidates(candidates);
-        return sortedCandidates.get(sortedCandidates.size() - 1);
+        ArrayList<Candidate> candidatesWithMaxScore = getCandidatesWithMaxScore(candidates);
+        return candidatesWithMaxScore.get(new Random().nextInt(candidatesWithMaxScore.size()));
     }
 }
