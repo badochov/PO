@@ -1,6 +1,8 @@
 package badocha.hubert.constituencies;
 
 import badocha.hubert.Candidate;
+import badocha.hubert.Utils;
+import badocha.hubert.Votes;
 import badocha.hubert.voter.Voter;
 
 import java.util.ArrayList;
@@ -15,18 +17,13 @@ public class MultiConstituency extends AbstractConstituency {
         constituencies = mergedConstituencies;
     }
 
-    private static <T> ArrayList<T> mergeLists(ArrayList<T> l1, ArrayList<T> l2) {
-        l1.addAll(l2);
-        return l1;
-    }
-
     @Override
     public Map<String, ArrayList<Candidate>> getAllCandidates() {
         Map<String, ArrayList<Candidate>> candidates = new HashMap<>();
         for (Constituency constituency : constituencies) {
             for (var partyCandidates : constituency.getAllCandidates().entrySet()) {
                 candidates.merge(partyCandidates.getKey(), partyCandidates.getValue(),
-                        MultiConstituency::mergeLists);
+                        Utils::mergeLists);
             }
         }
         return candidates;
@@ -42,14 +39,11 @@ public class MultiConstituency extends AbstractConstituency {
     }
 
     @Override
-    public Map<Candidate, ArrayList<Voter>> getVotes(
+    public Votes getVotes(
             Map<String, ArrayList<Candidate>> allCandidates) {
-        Map<Candidate, ArrayList<Voter>> votes = new HashMap<>();
+        Votes votes = new Votes();
         for (Constituency constituency : constituencies) {
-            for (var partyCandidates : constituency.getVotes(allCandidates).entrySet()) {
-                votes.merge(partyCandidates.getKey(), partyCandidates.getValue(),
-                        MultiConstituency::mergeLists);
-            }
+            votes.addVotes(constituency.getVotes(allCandidates));
         }
         return votes;
     }
@@ -62,7 +56,7 @@ public class MultiConstituency extends AbstractConstituency {
     @Override
     public ArrayList<Voter> getVoters() {
         return constituencies.stream().map(Constituency::getVoters)
-                .reduce(new ArrayList<>(), MultiConstituency::mergeLists);
+                .reduce(new ArrayList<>(), Utils::mergeLists);
     }
 
     @Override public MultiConstituency copy() {

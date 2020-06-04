@@ -1,6 +1,8 @@
 package badocha.hubert.constituencies;
 
 import badocha.hubert.Candidate;
+import badocha.hubert.Vote;
+import badocha.hubert.Votes;
 import badocha.hubert.voter.Voter;
 
 import java.util.ArrayList;
@@ -11,9 +13,9 @@ public interface Constituency {
 
     ArrayList<Candidate> getPartyCandidates(String partyName);
 
-    Map<Candidate, ArrayList<Voter>> getVotes();
+    Votes getVotes();
 
-    Map<Candidate, ArrayList<Voter>> getVotes(Map<String, ArrayList<Candidate>> allCandidates);
+    Votes getVotes(Map<String, ArrayList<Candidate>> allCandidates);
 
     int getSize();
 

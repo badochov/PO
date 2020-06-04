@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 public class Simulation {
     private final Party[] parties;
@@ -19,19 +18,11 @@ public class Simulation {
         constituencies = constituenciesInSimulation;
     }
 
-    private static double valueAfterComa(double d) {
-        return d - (int) d;
-    }
-
-    private static int comparePartyVotes(Map.Entry<String, Double> e1,
-                                         Map.Entry<String, Double> e2) {
-        return Double.compare(valueAfterComa(e1.getValue()), valueAfterComa(e1.getValue()));
-    }
 
     public void simulate() {
         for (VoteCountingType voteCountingType : VoteCountingType.values()) {
             simulate(voteCountingType);
-            System.out.println("===================================");
+            System.out.println("====================================");
             System.out.println();
         }
     }
@@ -62,77 +53,6 @@ public class Simulation {
         displayResults(voteCountingType, constituencies);
     }
 
-    private Map<String, Integer> getVotesForParties(Map<Candidate, ArrayList<Voter>> votes) {
-        Map<String, Integer> partyVotes = new HashMap<>();
-        votes.forEach((key, value) -> partyVotes.merge(key.getParty(), value.size(), Integer::sum));
-        return partyVotes;
-    }
-
-    private Map<String, Integer> getNumberOfMandates(VoteCountingType voteCountingType,
-                                                     Map<String, Integer> partyVotes,
-                                                     Constituency constituency) {
-        switch (voteCountingType) {
-            case DHondt:
-                return getNumberOfMandatesDHondt(partyVotes, constituency);
-            case Sainte_Lague:
-                return getNumberOfMandatesSainteLague(partyVotes, constituency);
-            case Hare_Niemeyer:
-                return getNumberOfMandatesHareNiemeyer(partyVotes, constituency);
-        }
-        return null;
-    }
-
-    private Map<String, Integer> getNumberOfMandatesDHondt(Map<String, Integer> partyVotes,
-                                                           Constituency constituency) {
-        return getNumberOfMandatesIterativeMethod(partyVotes, constituency, (i) -> i + 1);
-    }
-
-    private Map<String, Integer> getNumberOfMandatesSainteLague(
-            Map<String, Integer> partyVotes,
-            Constituency constituency) {
-        return getNumberOfMandatesIterativeMethod(partyVotes, constituency, (i) -> 2 * i + 1);
-    }
-
-    private Map<String, Integer> getNumberOfMandatesIterativeMethod(Map<String, Integer> partyVotes,
-                                                                    Constituency constituency,
-                                                                    Function<Integer, Integer> f) {
-        Map<String, Integer> mandates = new HashMap<>();
-        Function<String, Integer> getCoefficient =
-                (String name) -> partyVotes.getOrDefault(name, 0) /
-                        f.apply(mandates.getOrDefault(name, 0));
-        for (int i = 1; i <= constituency.getMandatesCount(); i++) {
-            String partyNameMax = partyVotes.keySet().toArray(String[]::new)[0];
-            for (String partyName : partyVotes.keySet()) {
-                if (getCoefficient.apply(partyName) > getCoefficient.apply(partyNameMax)) {
-                    partyNameMax = partyName;
-                }
-            }
-
-            mandates.merge(partyNameMax, 1, Integer::sum);
-        }
-
-
-        return mandates;
-    }
-
-    private Map<String, Integer> getNumberOfMandatesHareNiemeyer(
-            Map<String, Integer> partyVotes,
-            Constituency constituency) {
-        Map<String, Double> Qs = new HashMap<>();
-        partyVotes.forEach(
-                (party, votes) -> Qs.put(party,
-                        ((double) constituency.getMandatesCount() * votes) /
-                                constituency.getNumberOfVotes()));
-        Map<String, Integer> mandates = new HashMap<>();
-        Qs.forEach((party, Q) -> mandates.put(party, Q.intValue()));
-        int sum = Qs.values().stream().mapToInt(Double::intValue).reduce(0, Integer::sum);
-        if (sum < constituency.getMandatesCount()) {
-            Qs.entrySet().stream().sorted(Simulation::comparePartyVotes)
-                    .limit(constituency.getMandatesCount() - sum)
-                    .forEach((e) -> mandates.merge(e.getKey(), 1, Integer::sum));
-        }
-        return mandates;
-    }
 
     private void displayResults(VoteCountingType voteCountingType, Constituency[] constituencies) {
         System.out.println(voteCountingType);
@@ -143,7 +63,7 @@ public class Simulation {
         for (Constituency constituency : constituencies) {
             var votes = constituency.getVotes();
             var constituencyResults =
-                    getNumberOfMandates(voteCountingType, getVotesForParties(votes),
+                    VoteCounter.getNumberOfMandates(voteCountingType, votes.getPartyVotes(),
                             constituency);
             assert constituencyResults != null;
             constituencyResults
@@ -151,7 +71,7 @@ public class Simulation {
 
             System.out.println(constituency.getName());
             displayVotersAndTheirVotes(votes);
-            displayCandidatesAndNumberOfVotes(votes);
+            displayCandidatesAndNumberOfVotes(votes.getCandidatesVotes());
             displayResults(constituencyResults);
             System.out.println("------------------------------------");
         }
@@ -160,30 +80,28 @@ public class Simulation {
 
     }
 
-    private void displayVotersAndTheirVotes(Map<Candidate, ArrayList<Voter>> votes) {
+    private void displayVotersAndTheirVotes(Votes votes) {
         System.out.println();
         System.out.println("Wyborcy i ich głosy:");
         System.out.println();
-        for (var vote : votes.entrySet()) {
-            for (Voter voter : vote.getValue()) {
-                System.out.println(voter.toString() + " -> " + vote.getKey());
-            }
-        }
+
+        votes.forEach((vote) -> System.out.println(vote.getVoter() + " -> " + vote.getCandidate()));
     }
 
     private void displayCandidatesAndNumberOfVotes(Map<Candidate, ArrayList<Voter>> votes) {
         System.out.println();
         System.out.println("Kandydaci i liczba głosów na nich:");
         System.out.println();
-        for (var vote : votes.entrySet()) {
-            System.out.println(vote.getKey() + " -> " + vote.getValue().size());
-        }
+
+        votes.forEach(
+                ((candidate, voters) -> System.out.println(candidate + " -> " + voters.size())));
     }
 
 
     private void displayResults(Map<String, Integer> results) {
-        results.forEach(
-                (partyName, score) -> System.out
-                        .println(partyName + " -> " + score.toString()));
+        System.out.println();
+        System.out.println("Partie i liczba mandatów z okręgu:");
+        System.out.println();
+        results.forEach((partyName, score) -> System.out.println(partyName + " -> " + score));
     }
 }

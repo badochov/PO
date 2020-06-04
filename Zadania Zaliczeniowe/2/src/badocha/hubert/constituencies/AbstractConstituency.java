@@ -1,10 +1,6 @@
 package badocha.hubert.constituencies;
 
-import badocha.hubert.Candidate;
-import badocha.hubert.voter.Voter;
-
-import java.util.ArrayList;
-import java.util.Map;
+import badocha.hubert.Votes;
 
 public abstract class AbstractConstituency implements Constituency {
     @Override public int getMandatesCount() {
@@ -15,7 +11,7 @@ public abstract class AbstractConstituency implements Constituency {
         return getSize();
     }
 
-    @Override public Map<Candidate, ArrayList<Voter>> getVotes() {
+    @Override public Votes getVotes() {
         return getVotes(getAllCandidates());
     }
 }

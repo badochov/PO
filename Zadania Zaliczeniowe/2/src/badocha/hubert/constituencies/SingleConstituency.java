@@ -1,6 +1,8 @@
 package badocha.hubert.constituencies;
 
 import badocha.hubert.Candidate;
+import badocha.hubert.Vote;
+import badocha.hubert.Votes;
 import badocha.hubert.voter.CandidateVoter;
 import badocha.hubert.voter.Voter;
 
@@ -67,9 +69,9 @@ public class SingleConstituency extends AbstractConstituency {
 
 
     @Override
-    public Map<Candidate, ArrayList<Voter>> getVotes(
+    public Votes getVotes(
             Map<String, ArrayList<Candidate>> allCandidates) {
-        Map<Candidate, ArrayList<Voter>> votes = new HashMap<>();
+        Votes votes = new Votes();
         for (Voter voter : voters) {
             Candidate candidate;
             if (voter instanceof CandidateVoter) {
@@ -77,9 +79,7 @@ public class SingleConstituency extends AbstractConstituency {
             } else {
                 candidate = voter.getVote(allCandidates);
             }
-            ArrayList<Voter> prevVotes = votes.getOrDefault(candidate, new ArrayList<>());
-            prevVotes.add(voter);
-            votes.put(candidate, prevVotes);
+            votes.addVote(new Vote(candidate, voter));
         }
         return votes;
     }
