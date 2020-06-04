@@ -4,7 +4,7 @@ import badocha.hubert.Action;
 import badocha.hubert.Pair;
 import badocha.hubert.VoteCountingType;
 import badocha.hubert.constituencies.Constituency;
-import badocha.hubert.voter.OmnivorousVoter;
+import badocha.hubert.voter.TraitsWeightedVoter;
 import badocha.hubert.voter.Voter;
 
 import java.util.ArrayList;
@@ -70,8 +70,8 @@ public abstract class Party {
 
     protected void applyAction(Pair<Action, Constituency> pair) {
         for (Voter voter : pair.getSecond().getVoters()) {
-            if (voter instanceof OmnivorousVoter) {
-                ((OmnivorousVoter) voter).performAction(pair.getFirst());
+            if (voter instanceof TraitsWeightedVoter) {
+                ((TraitsWeightedVoter) voter).performAction(pair.getFirst());
             }
         }
 

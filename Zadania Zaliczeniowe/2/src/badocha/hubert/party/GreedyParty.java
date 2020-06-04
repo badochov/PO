@@ -5,7 +5,7 @@ import badocha.hubert.Candidate;
 import badocha.hubert.Pair;
 import badocha.hubert.VoteCountingType;
 import badocha.hubert.constituencies.Constituency;
-import badocha.hubert.voter.OmnivorousVoter;
+import badocha.hubert.voter.TraitsWeightedVoter;
 import badocha.hubert.voter.Voter;
 
 /**
@@ -36,10 +36,10 @@ public class GreedyParty extends Party {
     private int calculateActionValue(Pair<Action, Constituency> pair) {
         int sum = 0;
         for (Voter voter : pair.getSecond().getVoters()) {
-            if (voter instanceof OmnivorousVoter) {
-                int[] weights = ((OmnivorousVoter) voter).getWeights();
+            if (voter instanceof TraitsWeightedVoter) {
+                int[] weights = ((TraitsWeightedVoter) voter).getWeights();
                 for (int i = 0; i < weights.length; i++) {
-                    weights[i] = ((OmnivorousVoter) voter)
+                    weights[i] = ((TraitsWeightedVoter) voter)
                             .getNewWeightValue(i, pair.getFirst().getChange(i));
                 }
                 sum += calculateWeightedSum(weights, pair.getSecond());

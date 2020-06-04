@@ -145,19 +145,19 @@ public class Parser implements AutoCloseable {
         return actions;
     }
 
-    private OmnivorousVoter getOmnivorousVoter(String name, String surname, int traitsCount,
-                                               VoterType type) {
+    private TraitsWeightedVoter getOmnivorousVoter(String name, String surname, int traitsCount,
+                                                   VoterType type) {
         int[] traits = new int[traitsCount];
         for (int i = 0; i < traitsCount; i++) {
             traits[i] = sc.nextInt();
         }
         if (type.isSinglePartyVoter()) {
-            return new OmnivorousVoter(name, surname, traits, sc.next());
+            return new TraitsWeightedVoter(name, surname, traits, sc.next());
         }
-        return new OmnivorousVoter(name, surname, traits);
+        return new TraitsWeightedVoter(name, surname, traits);
     }
 
-    private MinMaxTraitVoter getSingleTraitVoter(String name, String surname, VoterType type) {
+    private TraitsAwareVoter getSingleTraitVoter(String name, String surname, VoterType type) {
         int trait = sc.nextInt() - 1;
 
         if (VoterType.isMin(type)) {

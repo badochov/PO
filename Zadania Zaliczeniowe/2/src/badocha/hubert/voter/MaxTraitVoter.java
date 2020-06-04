@@ -3,7 +3,7 @@ package badocha.hubert.voter;
 /**
  * Osoba głosująca względem maksymalnej wartości danej cechy.
  */
-public class MaxTraitVoter extends MinMaxTraitVoter {
+public class MaxTraitVoter extends TraitsAwareVoter {
     public MaxTraitVoter(String name, String surname, int traitNumber, String partyName) {
         super(name, surname, new int[][]{{traitNumber, 1}}, partyName);
     }

@@ -7,15 +7,15 @@ import java.util.Arrays;
 /**
  * Osoba która wartościuje kandydatów względem zestawu wag dla danych cech.
  */
-public class OmnivorousVoter extends MinMaxTraitVoter {
+public class TraitsWeightedVoter extends TraitsAwareVoter {
     public static final int MAX_TRAIT_VALUE = 100;
     public static final int MIN_TRAIT_VALUE = -100;
 
-    public OmnivorousVoter(String name, String surname, int[] weights, String partyName) {
+    public TraitsWeightedVoter(String name, String surname, int[] weights, String partyName) {
         super(name, surname, convertWeights(weights), partyName);
     }
 
-    public OmnivorousVoter(String name, String surname, int[] weights) {
+    public TraitsWeightedVoter(String name, String surname, int[] weights) {
         super(name, surname, convertWeights(weights));
     }
 
@@ -43,7 +43,7 @@ public class OmnivorousVoter extends MinMaxTraitVoter {
         return Arrays.stream(traitWeights).mapToInt((w) -> w[1]).toArray();
     }
 
-    @Override public OmnivorousVoter copy() {
-        return new OmnivorousVoter(name, surname, getWeights(), party);
+    @Override public TraitsWeightedVoter copy() {
+        return new TraitsWeightedVoter(name, surname, getWeights(), party);
     }
 }

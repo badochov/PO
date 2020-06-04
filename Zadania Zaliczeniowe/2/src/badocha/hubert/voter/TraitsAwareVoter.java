@@ -11,17 +11,17 @@ import java.util.Random;
 /**
  * Klasa abstrakcyjna reprezentująca osobę która wartościuje kandydatów względem zestawu wag dla danych cech.
  */
-public abstract class MinMaxTraitVoter extends Human implements Voter {
+public abstract class TraitsAwareVoter extends Human implements Voter {
     protected final int[][] traitWeights;
     protected final String party;
 
-    MinMaxTraitVoter(String name, String surname, int[][] weights, String partyName) {
+    TraitsAwareVoter(String name, String surname, int[][] weights, String partyName) {
         super(name, surname);
         traitWeights = weights;
         party = partyName;
     }
 
-    MinMaxTraitVoter(String name, String surname, int[][] traitNumber) {
+    TraitsAwareVoter(String name, String surname, int[][] traitNumber) {
         this(name, surname, traitNumber, "");
     }
 
