@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Klasa reprezentująca scalony okrąg.
+ */
 public class MultiConstituency extends AbstractConstituency {
     private final ArrayList<Constituency> constituencies;
 

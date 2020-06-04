@@ -4,6 +4,9 @@ import badocha.hubert.voter.Voter;
 
 import java.util.*;
 
+/**
+ * Klasa trzymająca wszystkie głosy w danym okręgu.
+ */
 public class Votes implements Iterable<Vote> {
     private final ArrayList<Vote> votes;
 

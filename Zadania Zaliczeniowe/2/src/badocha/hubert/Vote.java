@@ -2,6 +2,9 @@ package badocha.hubert;
 
 import badocha.hubert.voter.Voter;
 
+/**
+ * Głos oddany.
+ */
 public class Vote {
     private final Candidate candidate;
     private final Voter voter;

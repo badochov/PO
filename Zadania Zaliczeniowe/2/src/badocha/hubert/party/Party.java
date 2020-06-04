@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+/**
+ * Klasa abstrakcyjna z której dziedziczą wszystkie partię.
+ */
 public abstract class Party {
     protected final Action[] actions;
     protected final Constituency[] constituencies;

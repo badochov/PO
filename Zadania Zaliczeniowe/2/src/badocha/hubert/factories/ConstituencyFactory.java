@@ -7,6 +7,9 @@ import badocha.hubert.constituencies.SingleConstituency;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Klasa pomocnicza produkująca obiekty spełniające interfejs okręgu wyborczego.
+ */
 public abstract class ConstituencyFactory {
     public static Constituency[] createConstituencies(SingleConstituency[] singles,
                                                       int[][] mergedConstituencies) {

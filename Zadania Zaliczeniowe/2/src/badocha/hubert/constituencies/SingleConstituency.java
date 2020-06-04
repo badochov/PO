@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Klasa reprezentująca pojedynczy okrąg.
+ */
 public class SingleConstituency extends AbstractConstituency {
     final private Map<String, ArrayList<Candidate>> candidates;
     final private ArrayList<Voter> voters;

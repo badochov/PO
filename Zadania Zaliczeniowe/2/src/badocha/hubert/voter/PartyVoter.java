@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Osoba głosująca na losowego kandydata z danej partii.
+ */
 public class PartyVoter extends Human implements Voter {
     private final String party;
 

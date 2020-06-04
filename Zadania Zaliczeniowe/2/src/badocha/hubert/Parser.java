@@ -10,6 +10,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
+/**
+ * Klasa parkująca dane wejściowe.
+ */
 public class Parser implements AutoCloseable {
     final private Scanner sc;
 

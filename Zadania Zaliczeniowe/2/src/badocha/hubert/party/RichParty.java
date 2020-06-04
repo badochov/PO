@@ -4,6 +4,9 @@ import badocha.hubert.Action;
 import badocha.hubert.VoteCountingType;
 import badocha.hubert.constituencies.Constituency;
 
+/**
+ * Klasa partii wybierającej akcje po najwyższej cenie
+ */
 public class RichParty extends MoneySensitiveParty {
     public RichParty(String partyName, int partyBudget, Action[] actionsAvailable,
                      Constituency[] constituenciesAvailable) {

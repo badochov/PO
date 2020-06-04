@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Klasa symulująca przebieg wyborów.
+ */
 public class Simulation {
     private final Party[] parties;
     private final Constituency[] constituencies;
@@ -102,6 +105,7 @@ public class Simulation {
         System.out.println();
         System.out.println("Partie i liczba mandatów z okręgu:");
         System.out.println();
+
         results.forEach((partyName, score) -> System.out.println(partyName + " -> " + score));
     }
 }

@@ -1,5 +1,8 @@
 package badocha.hubert.voter;
 
+/**
+ * Osoba głosująca względem minimalnej wartości danej cechy.
+ */
 public class MinTraitVoter extends MinMaxTraitVoter {
     public MinTraitVoter(String name, String surname, int traitNumber, String partyName) {
         super(name, surname, new int[][]{{traitNumber, -1}}, partyName);

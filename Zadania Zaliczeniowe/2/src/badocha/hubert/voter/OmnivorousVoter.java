@@ -4,6 +4,9 @@ import badocha.hubert.Action;
 
 import java.util.Arrays;
 
+/**
+ * Osoba która wartościuje kandydatów względem zestawu wag dla danych cech.
+ */
 public class OmnivorousVoter extends MinMaxTraitVoter {
     public static final int MAX_TRAIT_VALUE = 100;
     public static final int MIN_TRAIT_VALUE = -100;

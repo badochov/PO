@@ -6,11 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Klasa zliczająca głosy.
+ */
 public abstract class VoteCounter {
 
     public static Map<String, Integer> getNumberOfMandates(VoteCountingType voteCountingType,
-                                                     Map<String, Integer> partyVotes,
-                                                     Constituency constituency) {
+                                                           Map<String, Integer> partyVotes,
+                                                           Constituency constituency) {
         switch (voteCountingType) {
             case DHondt:
                 return getNumberOfMandatesDHondt(partyVotes, constituency);
@@ -23,7 +26,7 @@ public abstract class VoteCounter {
     }
 
     private static Map<String, Integer> getNumberOfMandatesDHondt(Map<String, Integer> partyVotes,
-                                                           Constituency constituency) {
+                                                                  Constituency constituency) {
         return getNumberOfMandatesIterativeMethod(partyVotes, constituency, (i) -> i + 1);
     }
 
@@ -33,9 +36,10 @@ public abstract class VoteCounter {
         return getNumberOfMandatesIterativeMethod(partyVotes, constituency, (i) -> 2 * i + 1);
     }
 
-    private static Map<String, Integer> getNumberOfMandatesIterativeMethod(Map<String, Integer> partyVotes,
-                                                                    Constituency constituency,
-                                                                    Function<Integer, Integer> f) {
+    private static Map<String, Integer> getNumberOfMandatesIterativeMethod(
+            Map<String, Integer> partyVotes,
+            Constituency constituency,
+            Function<Integer, Integer> f) {
         Map<String, Integer> mandates = new HashMap<>();
         Function<String, Integer> getCoefficient =
                 (String name) -> partyVotes.getOrDefault(name, 0) /

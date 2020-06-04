@@ -4,6 +4,9 @@ import badocha.hubert.Action;
 import badocha.hubert.constituencies.Constituency;
 import badocha.hubert.party.*;
 
+/**
+ * Klasa abstrakcyjna produkująca obiekty typu partii.
+ */
 public abstract class PartyFactory {
 
     public static Party[] convertToParties(String[] names, int[] budgets,

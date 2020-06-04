@@ -1,5 +1,8 @@
 package badocha.hubert;
 
+/**
+ * Kandydat startujący w wyborach.
+ */
 public final class Candidate extends Human {
 
     private final int[] traits;

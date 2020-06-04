@@ -6,6 +6,9 @@ import badocha.hubert.Human;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Osoba głosująca na danego kandydata.
+ */
 public class CandidateVoter extends Human implements Voter {
     private final String party;
     private final int pos;

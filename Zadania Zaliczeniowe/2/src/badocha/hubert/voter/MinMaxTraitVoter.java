@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
 
+/**
+ * Klasa abstrakcyjna reprezentująca osobę która wartościuje kandydatów względem zestawu wag dla danych cech.
+ */
 public abstract class MinMaxTraitVoter extends Human implements Voter {
     protected final int[][] traitWeights;
     protected final String party;

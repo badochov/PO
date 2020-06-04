@@ -1,5 +1,8 @@
 package badocha.hubert;
 
+/**
+ * Klasa abstrakcyjna człowieka.
+ */
 public abstract class Human {
     protected final String name;
     protected final String surname;

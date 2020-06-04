@@ -1,6 +1,8 @@
 package badocha.hubert.voter;
 
-
+/**
+ * Typ wyliczeniowy zwracający typ osoby głosującej.
+ */
 public enum VoterType {
     PartyElectorate(VoterStyle.SingleParty, VoterTraits.No),
     CandidateElectorate(VoterStyle.SingleCandidate, VoterTraits.No),
@@ -63,12 +65,18 @@ public enum VoterType {
     }
 }
 
+/**
+ * Typ wyliczeniowy mówiący o stylu głosowania danej osoby.
+ */
 enum VoterStyle {
     SingleParty,
     SingleCandidate,
     Multi
 }
 
+/**
+ * Typ wyliczeniowy mówiący czy dana osoba patrzy na cechy podczas głosowania.
+ */
 enum VoterTraits {
     No,
     Single,

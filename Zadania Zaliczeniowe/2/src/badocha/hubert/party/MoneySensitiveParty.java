@@ -6,6 +6,9 @@ import badocha.hubert.constituencies.Constituency;
 
 import java.util.Comparator;
 
+/**
+ * Klasa abstrakcyjna partii wybierającej akcje względem ceny
+ */
 public abstract class MoneySensitiveParty extends Party {
     MoneySensitiveParty(String partyName, int partyBudget, Action[] actionsAvailable,
                         Constituency[] constituenciesAvailable) {

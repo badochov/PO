@@ -8,6 +8,9 @@ import badocha.hubert.constituencies.Constituency;
 import badocha.hubert.voter.OmnivorousVoter;
 import badocha.hubert.voter.Voter;
 
+/**
+ * Klasa partii wybierającej akcje zachłannie
+ */
 public class GreedyParty extends Party {
     public GreedyParty(String partyName, int partyBudget, Action[] actionsAvailable,
                        Constituency[] constituenciesAvailable) {

@@ -1,5 +1,8 @@
 package badocha.hubert;
 
+/**
+ * Akcja którą partia może wykonać w kampanii.
+ */
 public class Action {
     private final int[] changes;
 
